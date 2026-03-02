@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import type { FC } from 'react';
 import { LogIn } from 'lucide-react';
-import logo from '../assets/logo.png';
-
 const Login: FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,7 +27,6 @@ const Login: FC = () => {
         <div className="min-h-screen flex items-center justify-center bg-[#050C15] p-6">
             <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-2xl">
                 <div className="mb-8 text-center flex flex-col items-center text-primary">
-                    <img src={logo} alt="DreamTeam Logo" className="h-32 w-auto mb-4" />
                     <h1 className="text-2xl font-black uppercase tracking-tighter">Admin Login</h1>
                     <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-1">DreamTeam Solutions & Consultancy</p>
                 </div>

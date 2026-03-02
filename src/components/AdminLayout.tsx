@@ -1,15 +1,16 @@
+import { useState } from 'react';
 import type { FC } from 'react';
-import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Newspaper, Quote, LogOut, ExternalLink } from 'lucide-react';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Newspaper, Quote, LogOut, ExternalLink, AlertTriangle } from 'lucide-react';
 import logo from '../assets/logo.png';
 
 const AdminLayout: FC = () => {
     const location = useLocation();
-    const navigate = useNavigate();
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-    const handleLogout = () => {
+    const handleConfirmLogout = () => {
         localStorage.removeItem('dt_admin_session');
-        navigate('/login');
+        window.location.href = '/login';
     };
 
     const navItems = [
@@ -53,7 +54,7 @@ const AdminLayout: FC = () => {
                         View Site
                     </a>
                     <button
-                        onClick={handleLogout}
+                        onClick={() => setShowLogoutModal(true)}
                         className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-lg transition-colors text-sm font-bold uppercase tracking-wider text-left"
                     >
                         <LogOut size={20} />
@@ -73,6 +74,33 @@ const AdminLayout: FC = () => {
                     <Outlet />
                 </div>
             </main>
+
+            {/* Logout Confirmation Modal */}
+            {showLogoutModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white w-full max-w-sm p-8 rounded-sm shadow-2xl animate-in fade-in zoom-in duration-200 text-center">
+                        <div className="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <AlertTriangle size={32} />
+                        </div>
+                        <h2 className="text-xl font-black text-primary uppercase mb-2 tracking-tight">Confirm Logout</h2>
+                        <p className="text-gray-500 text-sm mb-8">Are you sure you want to log out from the admin panel?</p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={handleConfirmLogout}
+                                className="flex-1 bg-red-600 text-white py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-red-700 transition-all"
+                            >
+                                Yes, Logout
+                            </button>
+                            <button
+                                onClick={() => setShowLogoutModal(false)}
+                                className="flex-1 bg-gray-100 text-gray-500 py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-gray-200 transition-all"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
