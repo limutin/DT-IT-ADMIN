@@ -1,10 +1,9 @@
-import React from 'react';
+import type { FC } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Newspaper, Quote, LogOut, ExternalLink } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 import logo from '../assets/logo.png';
 
-const AdminLayout: React.FC = () => {
+const AdminLayout: FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
 

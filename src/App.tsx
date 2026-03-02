@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { supabase } from './lib/supabase';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import NewsManager from './pages/NewsManager';
@@ -8,7 +7,7 @@ import TestimonialsManager from './pages/TestimonialsManager';
 import AdminLayout from './components/AdminLayout';
 
 function App() {
-  const [session, setSession] = useState<string | null>(localStorage.getItem('dt_admin_session'));
+  const [session] = useState<string | null>(localStorage.getItem('dt_admin_session'));
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

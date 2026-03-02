@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import type { FC } from 'react';
 import { LogIn } from 'lucide-react';
 import logo from '../assets/logo.png';
 
-const Login: React.FC = () => {
+const Login: FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

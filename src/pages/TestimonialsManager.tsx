@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { FC } from 'react';
 import { supabase } from '../lib/supabase';
 import { Plus, Pencil, Trash2, User, Briefcase } from 'lucide-react';
 
@@ -10,7 +11,7 @@ interface Testimonial {
     company: string;
 }
 
-const TestimonialsManager: React.FC = () => {
+const TestimonialsManager: FC = () => {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,11 +30,12 @@ const TestimonialsManager: React.FC = () => {
 
     const fetchTestimonials = async () => {
         setLoading(true);
-        const { data, error } = await supabase
+        const { data, error: fetchError } = await supabase
             .from('testimonials')
             .select('*')
             .order('created_at', { ascending: false });
 
+        if (fetchError) console.error('Error fetching testimonials:', fetchError);
         if (data) setTestimonials(data);
         setLoading(false);
     };
@@ -73,11 +75,11 @@ const TestimonialsManager: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this testimonial?')) {
-            const { error } = await supabase
+            const { error: deleteError } = await supabase
                 .from('testimonials')
                 .delete()
                 .eq('id', id);
-            if (!error) fetchTestimonials();
+            if (!deleteError) fetchTestimonials();
         }
     };
 
