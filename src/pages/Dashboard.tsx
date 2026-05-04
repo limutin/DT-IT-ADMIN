@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Newspaper, Quote, TrendingUp } from 'lucide-react';
+import { Newspaper, Quote, TrendingUp, Eye } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const [stats, setStats] = useState({
         newsCount: 0,
         testimonialsCount: 0,
+        visitsCount: 0,
     });
     const [loading, setLoading] = useState(true);
 
@@ -15,10 +16,12 @@ const Dashboard: React.FC = () => {
         const fetchStats = async () => {
             const { count: newsCount } = await supabase.from('news').select('*', { count: 'exact', head: true });
             const { count: testimonialsCount } = await supabase.from('testimonials').select('*', { count: 'exact', head: true });
+            const { count: visitsCount } = await supabase.from('page_visits').select('*', { count: 'exact', head: true });
 
             setStats({
                 newsCount: newsCount || 0,
                 testimonialsCount: testimonialsCount || 0,
+                visitsCount: visitsCount || 0,
             });
             setLoading(false);
         };
@@ -29,6 +32,7 @@ const Dashboard: React.FC = () => {
     const statCards = [
         { label: 'Total News', value: stats.newsCount, icon: <Newspaper size={24} />, color: 'bg-blue-500' },
         { label: 'Total Testimonials', value: stats.testimonialsCount, icon: <Quote size={24} />, color: 'bg-emerald-500' },
+        { label: 'Total Visits', value: stats.visitsCount, icon: <Eye size={24} />, color: 'bg-purple-500' },
     ];
 
     return (
